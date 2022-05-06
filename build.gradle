@@ -1,0 +1,50 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.1"
+    id("io.micronaut.application") version "3.3.2"
+    id("com.google.osdetector") version "1.7.0"
+}
+
+version = "0.1"
+group = "com.softwaremill.micronaut"
+
+repositories {
+    mavenCentral()
+}
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.softwaremill.micronaut.openid.*")
+    }
+}
+
+dependencies {
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor("io.micronaut.security:micronaut-security-annotations")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut.security:micronaut-security-jwt")
+    implementation("io.micronaut.security:micronaut-security-oauth2")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation("io.micronaut.views:micronaut-views-pebble")
+    implementation("io.micronaut:micronaut-validation")
+    implementation "io.vavr:vavr:0.10.3"
+    implementation "io.vavr:vavr-jackson:0.10.3"
+    implementation "io.projectreactor:reactor-core:3.4.16"
+
+    runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("io.netty:netty-tcnative:2.0.46.Final")
+}
+
+application {
+    mainClass.set("com.softwaremill.micronaut.openid.Application")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+graalvmNative.toolchainDetection = false

@@ -1,0 +1,10 @@
+{% extends "base" %}
+
+{% block title %} Header it is {% endblock %}
+
+{% block content %}
+<h1>Home page.</h1>
+{% if security is not empty %}
+<a href="admin.html">admin page</a>
+{% endif %}
+{% endblock %}

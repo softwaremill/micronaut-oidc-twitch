@@ -1,0 +1,13 @@
+{% extends "base" %}
+
+{% block title %} Admin header it is {% endblock %}
+
+{% block content %}
+<h1>Admin page.</h1>
+{% if security is not empty %}
+<h2>Logged in with mail: <span>{{ security["attributes"]["email"] }}</span></h2>
+<h2>Logged in with mail: <span>{{ security["attributes"]["preferred_username"] }}</span></h2>
+{% else %}
+<h2>Security is empty</h2>
+{% endif %}
+{% endblock %}

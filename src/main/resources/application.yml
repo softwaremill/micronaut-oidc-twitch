@@ -1,0 +1,59 @@
+micronaut:
+  application:
+    name: demo
+  security:
+    authentication: cookie
+    redirect:
+      login-failure: /home
+      login-success: /admin
+      unauthorized:
+        enabled: true
+        url: /home
+      logout: /home
+    endpoints:
+      logout:
+        get-allowed: true
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: pleaseChangeThisSecretForANewOne
+    oauth2:
+      clients:
+        twitch:
+          client-id: x1c9nxnecinno9xde8g4jlp1t4s59h
+          client-secret: 9e7ihj62i0b48dlmh26lvmfzyskq07
+          scopes:
+            - openid
+            - user:read:email
+          openid:
+            issuer: https://id.twitch.tv/oauth2
+            jwks-uri: https://id.twitch.tv/oauth2/keys
+            authorization:
+              url: https://id.twitch.tv/oauth2/authorize
+              response-type: code
+              display: popup
+              max-age: 3600
+            user-info:
+              url: https://id.twitch.tv/oauth2/userinfo
+      openid:
+        additional-claims:
+          access-token: true
+          refresh-token: true
+    intercept-url-map:
+      - pattern: /home
+        httpMethod: GET
+        access:
+          - isAnonymous()
+      - pattern: /*/favicon.ico
+        httpMethod: GET
+        access:
+          - isAnonymous()
+      - pattern: /admin
+        httpMethod: GET
+        access:
+          - isAuthenticated()
+
+twitch:
+  api: https://api.twitch.tv/helix
